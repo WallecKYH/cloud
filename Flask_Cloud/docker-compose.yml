@@ -1,0 +1,27 @@
+version: "3"
+
+# We define two sevices, meaning that we will have two running containers
+services: 
+  # The first one is our flask container
+  flask:
+    # Build the Dockerfile inside the flask folder
+    build: ./flask
+    # and give this container the name flask
+    container_name: flask
+    # If something bad happens, restart the container
+    restart: always
+    # We will need to expose port 8080 as uwsgi is listening on this port
+    expose:
+      - 8080
+
+  # This is the container running the nginx web server
+  nginx:
+    # Build the Dockerfile inside the nginx folder
+    build: ./nginx
+    # and give this conteainer the name nginx
+    container_name: nginx
+    # We will restart this container if something bad happens
+    restart: always
+    # And we map port 80 on our local mchine to port 80 inside the container
+    ports:
+      - "80:80"

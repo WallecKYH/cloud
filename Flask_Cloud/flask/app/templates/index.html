@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temp Readings</title>
+    <style>
+        table {
+            width: 80%;
+            border: 1px black solid;
+        }
+
+        td {
+            border: 1px black solid;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sensor Data Readings</h1>
+    <table id="tempTable">
+        <tr>
+            <th>Sensor 1</th>
+            <th>Sensor 2</th>
+            <th>Sensor 3</th>
+            <th>Sensor 4</th>
+        </tr>
+        <tr>
+            <th id="sensor1"></th>
+            <th id="sensor2"></th>
+            <th id="sensor3"></th>
+            <th id="sensor4"></th>
+        </tr>
+    </table>
+    <script src=""></script>
+    <script>
+        setInterval(getData, 10000);
+
+        function getData() {
+            fetch('http://127.0.0.1:5000/data')
+                .then(response => response.json())
+                .then(sensorObjects => {
+                    console.log(sensorObjects);
+                    let data = [];
+                    for(let item of sensorObjects) {
+                        data.push(item['temp']);
+                    }
+                    document.getElementById("sensor1").innerHTML = data[0];
+                    document.getElementById("sensor2").innerHTML = data[1];
+                    document.getElementById("sensor3").innerHTML = data[2];
+                    document.getElementById("sensor4").innerHTML = data[3];
+                })
+        }
+    </script>
+
+</body>
+</html>
